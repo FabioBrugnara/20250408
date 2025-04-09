@@ -1,0 +1,53 @@
+[sample_description]
+name = vycor
+scan = scan0013
+dataset = 0001
+composition = Sio2
+temperature = 23C
+
+[data_location]
+data_dir = ../
+sample_dir = ${data_dir}/RAW_DATA/${sample_description:name}/${sample_description:name}_${sample_description:dataset}/
+data_prefix = ${sample_description:name}_${sample_description:dataset} 
+data_sufix = .h5
+first_file = 0
+last_file = 2000
+skip = 1
+fbin = 1
+dark_dir = /data/id10/inhouse/extraspace/17run2/IHR_WAXS/dark/dark3s/
+dark_prefix = img_
+first_dark = 1
+last_dark = 100
+result_dir = ${data_dir}/PROCESSED_DATA/${sample_description:name}_${sample_description:dataset}/${sample_description:scan}_${data_location:first_file}_${data_location:last_file}/
+toplot = yes
+
+[exp_setup]
+geometry = SAXS
+wavelength = 1.33
+detector_distance = 7
+lagtime = auto
+firstq = 0.015
+widthq = 0.005
+stepq = 0.005
+numberq = 5
+q_mask = ${data_location:result_dir}${sample_description:name}_qmask.npy
+beamstop_mask = eiger4m_beamstop_mask.npy
+dbx = 1359
+dby = 1351
+
+[correlator]
+method = intensity
+engine = CPU
+low_threshold = 50
+bottom_adu = 1410
+top_adu = 2100
+photon_adu = 1958
+max_number = 60000
+ttcf = 0
+
+[detector]
+det_name = eiger4m_v2
+pixels = 75.0e-6
+mask = eiger4m_beamstop_mask.npy
+flatfield = none
+sparse = no
