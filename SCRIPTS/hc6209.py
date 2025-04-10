@@ -109,12 +109,14 @@ def switch_to_diode():
     beamstop_out()
 
 def switch_to_eiger():
+    ACTIVE_MG.disable("tetramm_diodes*")
     umv(delcoup,1.75)
     disdiode_saxs()
     beamstop_in()
     eh2_att(1)
 
 def switch_to_transmission():
+    ACTIVE_MG.enable("tetramm_diodes*")
     umv(delcoup,0)
     switch_to_diode()
     endiode_saxs()
@@ -187,4 +189,53 @@ def GeO2_6_macro():
         mtimescan(0.002,200_000,1)
         i = i + 1
  
+def GeO2_6_qdep():
+    a_delcoups =  5,3
+    theta_s =  2.4,1.5
+    i = 1
+    for a_delcoup in a_delcoups:
+        newsample(f"GeO2_6q_delcoup_{a_delcoup}")
+        print(f"go to delcoup = {a_delcoup} and sample = {theta_s[i-1]}")
+        umv(delcoup,a_delcoup)
+        umv(th,theta_s[i-1])
+        sct()
+        mtimescan(0.001,3_600_000,1)
+        i = i + 1
+
+def GeO2_7_macro():
+    temperature  = 30, 100, 170, 240, 310, 345, 380, 415, 450, 485, 520, 555, 590, 625, 660, 695, 730
+    rate         =  5,   5,   5,   5,   5,   5,   5,   5,   5,   5,   5,   5,   5,   5,   5,   5,   5
+    measure_time = 30,  30,  30,  30,  30,  60,  60,  60,  60,  60,  120, 120, 120, 180, 180, 180, 180
+
+          # SE STOPPI CAMBIA RANGE IN RANGE(START,LEN(TEMP))
+    for ii in range(6,len(temperature)):
+        print(f"Set temperature = {temperature[ii]}C")
+        set_nanodac_temp(temperature[ii], ramprate=rate[ii], wait=True)
+        if temperature[ii]!=30: time.sleep(5*60)
+        print(f"Reached temperature = {temperature[ii]}C")
+        newsample(f"GeO2_7_{temperature[ii]}C")
+        print(f"new measure")
+        switch_to_transmission()
+        eh2_att(0.01)
+        dscan(ys, -0.5, 0.5, 50, 0.2)
+        eh2_att(0.001)
+        eh2_att(0.01)
+        dscan(zs, -0.5, 0.5, 50, 0.2)
+        eh2_att(0.001)
+        switch_to_eiger()
+        mtimescan(0.001, measure_time[ii]*60*1000, 1)
+        switch_to_transmission()
+        eh2_att(0.01)
+        dscan(ys, -0.5, 0.5, 50, 0.2)
+        eh2_att(0.001)
+        eh2_att(0.01)
+        dscan(zs, -0.5, 0.5, 50, 0.2)
+        eh2_att(0.001)
+     
+
+
+
+
+ 
+        
 
