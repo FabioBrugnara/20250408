@@ -203,15 +203,17 @@ def GeO2_6_qdep():
         i = i + 1
 
 def GeO2_7_macro():
-    temperature  = 30, 100, 170, 240, 310, 345, 380, 415, 450, 485, 520, 555, 590, 625, 660, 695, 730
-    rate         =  5,   5,   5,   5,   5,   5,   5,   5,   5,   5,   5,   5,   5,   5,   5,   5,   5
-    measure_time = 30,  30,  30,  30,  30,  60,  60,  60,  60,  60,  120, 120, 120, 180, 180, 180, 180
+    temperature  = 625, 660, 695, 730, 520, 485, 450, 415, 380,  30,  30
+    rate         =   5,   5,   5,   5,   5,   5,   5,   5,   5,   5,   5
+    measure_time = 180, 180, 240, 240, 120,  60,  60,  60,  60,  30,  60
 
           # SE STOPPI CAMBIA RANGE IN RANGE(START,LEN(TEMP))
-    for ii in range(6,len(temperature)):
+    for ii in range(len(temperature)):
         print(f"Set temperature = {temperature[ii]}C")
         set_nanodac_temp(temperature[ii], ramprate=rate[ii], wait=True)
-        if temperature[ii]!=30: time.sleep(5*60)
+        
+        time.sleep(5*60)
+        
         print(f"Reached temperature = {temperature[ii]}C")
         newsample(f"GeO2_7_{temperature[ii]}C")
         print(f"new measure")
@@ -222,14 +224,23 @@ def GeO2_7_macro():
         eh2_att(0.01)
         dscan(zs, -0.5, 0.5, 50, 0.2)
         eh2_att(0.001)
+        eh2_att(0.01)
+        dmesh(ys, -0.05, 0.05, 20, zs, -0.05, 0.05, 20, 0.2)
+        eh2_att(0.001)
         switch_to_eiger()
+
+        if ii==len(temperature)-1: eh2_att(0.5)
+
         mtimescan(0.001, measure_time[ii]*60*1000, 1)
         switch_to_transmission()
         eh2_att(0.01)
-        dscan(ys, -0.5, 0.5, 50, 0.2)
+        dscan(ys, -0.5, 0.5, 200, 0.2)
         eh2_att(0.001)
         eh2_att(0.01)
-        dscan(zs, -0.5, 0.5, 50, 0.2)
+        dscan(zs, -0.5, 0.5, 200, 0.2)
+        eh2_att(0.001)
+        eh2_att(0.01)
+        dmesh(ys, -0.05, 0.05, 20, zs, -0.05, 0.05, 20, 0.2)
         eh2_att(0.001)
      
 

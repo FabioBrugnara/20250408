@@ -129,6 +129,12 @@ def load_scan(raw_folder, sample_name, Ndataset, Nscan):
 
     try: scan['eh2diode'] = h5file['measurement']['eh2diode'][:]
     except: pass
+    try: scan['ch2_saxs'] = h5file['measurement']['ch2_saxs'][:]
+    except: pass
+    try: scan['ys'] = h5file['measurement']['ys'][:]
+    except: pass
+    try: scan['zs'] = h5file['measurement']['zs'][:]
+    except: pass
     try: scan['delcoup'] = h5file['instrument']['positioners']['delcoup'][:]
     except: scan['delcoup'] = h5file['instrument']['positioners']['delcoup'][()]
     try: scan['current'] = h5file['measurement']['current'][:]
