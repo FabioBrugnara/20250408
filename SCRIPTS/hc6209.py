@@ -203,9 +203,9 @@ def GeO2_6_qdep():
         i = i + 1
 
 def GeO2_7_macro():
-    temperature  = 695, 730, 520, 485, 450, 415, 380,  30,  30
-    rate         =   5,   5,   5,   5,   5,   5,   5,   5,   5
-    measure_time = 240, 240, 120,  60,  60,  60,  60,  30,  60
+    temperature  = 730, 730, 660, 520, 485, 450, 415, 380, 300,  30,  30
+    rate         =   5,   5,   5,   5,   5,   5,   5,   5,   5,   5,   5
+    measure_time = 240,  60, 180, 120,  60,  60,  60,  60,  30,  30, 180
 
      
     for ii in range(len(temperature)):
@@ -230,6 +230,7 @@ def GeO2_7_macro():
         switch_to_eiger()
 
         if ii==len(temperature)-1: eh2_att(0.5)
+        else if ii==1: eh2_att(0.1)
 
         mtimescan(0.001, measure_time[ii]*60*1000, 1)
         switch_to_transmission()
