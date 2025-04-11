@@ -203,11 +203,11 @@ def GeO2_6_qdep():
         i = i + 1
 
 def GeO2_7_macro():
-    temperature  = 625, 660, 695, 730, 520, 485, 450, 415, 380,  30,  30
-    rate         =   5,   5,   5,   5,   5,   5,   5,   5,   5,   5,   5
-    measure_time = 180, 180, 240, 240, 120,  60,  60,  60,  60,  30,  60
+    temperature  = 695, 730, 520, 485, 450, 415, 380,  30,  30
+    rate         =   5,   5,   5,   5,   5,   5,   5,   5,   5
+    measure_time = 240, 240, 120,  60,  60,  60,  60,  30,  60
 
-          # SE STOPPI CAMBIA RANGE IN RANGE(START,LEN(TEMP))
+     
     for ii in range(len(temperature)):
         print(f"Set temperature = {temperature[ii]}C")
         set_nanodac_temp(temperature[ii], ramprate=rate[ii], wait=True)
